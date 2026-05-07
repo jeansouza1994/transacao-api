@@ -46,7 +46,6 @@ public class TransacaoService {
 
         log.info("Retorno de transações com sucesso");
         return listaTransacoes.stream()
-
                 .filter(transacao -> transacao.dataHora()
                 .isAfter(dataHoraIntervalo)).toList();
         }
