@@ -6,9 +6,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
@@ -29,6 +33,18 @@ public class TransacaoController {
     public ResponseEntity<Void> adicionarTransacao(@RequestBody TransacaoRequestDTO dto) {
         transacaoService.adicionarTransacoes(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Operation(description = "Endpoint responsável por exibir transações")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "422", description = "Campos não atendem os requisitos da transação"),
+            @ApiResponse(responseCode = "400", description = "Erro de requisição"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @GetMapping
+    public ResponseEntity<List<TransacaoRequestDTO>> listarTransacoes() {
+        List<TransacaoRequestDTO> listaDeTransacoes = transacaoService.exibirTransacoes();
+        return listaDeTransacoes.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(listaDeTransacoes);
     }
 
     @DeleteMapping

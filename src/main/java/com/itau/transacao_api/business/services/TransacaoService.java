@@ -34,6 +34,10 @@ public class TransacaoService {
         log.info("Transacoes adicionadas com sucesso");
     }
 
+    public List<TransacaoRequestDTO> exibirTransacoes() {
+        return listaTransacoes;
+    }
+
     public void limparTransacoes() {
         log.info("Iniciado processamento para deletar transações");
         listaTransacoes.clear();
